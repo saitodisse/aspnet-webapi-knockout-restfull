@@ -134,6 +134,7 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IngredientsMvcController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -226,6 +227,21 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Administration\RecreateDataBase.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\IngredientsMvc\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\IngredientsMvc\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\IngredientsMvc\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\IngredientsMvc\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\IngredientsMvc\Delete.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

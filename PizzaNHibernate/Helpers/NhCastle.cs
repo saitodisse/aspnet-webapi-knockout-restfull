@@ -12,11 +12,16 @@ namespace PizzaNHibernate.Helpers
 
         public ISessionFactory InitSessionFactory()
         {
-            _fluentConfiguration = Fluently.Configure().Mappings(m => m.FluentMappings.AddFromAssemblyOf<PizzaMap>()).Database(MsSqlConfiguration.MsSql2008.ShowSql().IsolationLevel("ReadCommitted").ConnectionString(c => c.FromConnectionStringWithKey("ConnectionString")).ShowSql());
+            _fluentConfiguration = Fluently.Configure()
+                .Mappings(m => m.FluentMappings.AddFromAssemblyOf<PizzaMap>())
+                .Database(MsSqlConfiguration.MsSql2008.ShowSql()
+                          .IsolationLevel("ReadCommitted")
+                          .ConnectionString(c => c.FromConnectionStringWithKey("ConnectionString"))
+                          .ShowSql());
             return _fluentConfiguration.BuildSessionFactory();
         }
 
-        public void CreateDb(ISession session)
+        public void RecreateDb(ISession session)
         {
             InitSessionFactory();
             var sessionSource = new SessionSource(_fluentConfiguration);

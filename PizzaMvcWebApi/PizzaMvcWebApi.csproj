@@ -131,9 +131,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\NinjectWebCommon.cs" />
-    <Compile Include="Controllers\IngredienteController.cs" />
+    <Compile Include="Controllers\IngredientController.cs" />
     <Compile Include="Controllers\PizzaController.cs" />
-    <Compile Include="DTOs\IngredienteDto.cs" />
+    <Compile Include="DTOs\IngredientDto.cs" />
     <Compile Include="DTOs\PizzaDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

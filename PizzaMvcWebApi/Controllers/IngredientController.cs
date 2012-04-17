@@ -3,7 +3,7 @@ using System.Web.Http;
 using AutoMapper;
 using PizzaModel.Entities;
 using PizzaModel.Services;
-using Pizzaria.DTOs;
+using PizzaMvcWebApi.DTOs;
 
 namespace PizzaMvcWebApi.Controllers
 {
@@ -19,46 +19,46 @@ namespace PizzaMvcWebApi.Controllers
 
         private static void CriarMapeamentosDto()
         {
-            Mapper.CreateMap<Ingredient, IngredienteDto>();
-            Mapper.CreateMap<Ingredient, IngredienteDto>();
+            Mapper.CreateMap<Ingredient, IngredientDto>();
+            Mapper.CreateMap<Ingredient, IngredientDto>();
         }
 
 
         // GET /api/<controller>
-        public IList<IngredienteDto> Get()
+        public IList<IngredientDto> Get()
         {
             var Ingredients = _IngredientServico.GetAll();
 
-            IList<IngredienteDto> IngredientDtos = Mapper.Map<IList<Ingredient>, IList<IngredienteDto>>(Ingredients);
+            IList<IngredientDto> IngredientDtos = Mapper.Map<IList<Ingredient>, IList<IngredientDto>>(Ingredients);
 
             return IngredientDtos;
         }
 
         // GET /api/<controller>/5
-        public IngredienteDto Get(int id)
+        public IngredientDto Get(int id)
         {
             var Ingredient = _IngredientServico.GetById(id);
 
-            var IngredientDto = Mapper.Map<Ingredient, IngredienteDto>(Ingredient);
+            var IngredientDto = Mapper.Map<Ingredient, IngredientDto>(Ingredient);
 
             return IngredientDto;
         }
 
         // POST /api/<controller>
-        public int Post(IngredienteDto IngredientDto)
+        public int Post(IngredientDto IngredientDto)
         {
             var IngredientIncluir = new Ingredient();
-            IngredientIncluir.Name = IngredientDto.Nome;
+            IngredientIncluir.Name = IngredientDto.Name;
             _IngredientServico.Save(IngredientIncluir);
             return IngredientIncluir.Id;
 
         }
 
         // PUT /api/<controller>/5
-        public string Put(int id, IngredienteDto IngredientDto)
+        public string Put(int id, IngredientDto IngredientDto)
         {
             var IngredientAlterar = _IngredientServico.GetById(id);
-            IngredientAlterar.Name = IngredientDto.Nome;
+            IngredientAlterar.Name = IngredientDto.Name;
             _IngredientServico.Save(IngredientAlterar);
             return "Ingredient [" + IngredientAlterar.Id + "] alterado com sucesso!";
         }

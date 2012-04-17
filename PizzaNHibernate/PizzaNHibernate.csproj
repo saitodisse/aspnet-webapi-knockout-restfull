@@ -60,6 +60,7 @@
     <Compile Include="Mappings\IngredientMap.cs" />
     <Compile Include="Mappings\PizzaMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repos\AdminRepo.cs" />
     <Compile Include="Repos\IngredientDAO.cs" />
     <Compile Include="Repos\PizzaDAO.cs" />
   </ItemGroup>

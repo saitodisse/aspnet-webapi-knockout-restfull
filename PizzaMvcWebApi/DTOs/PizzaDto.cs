@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace Pizzaria.DTOs
+namespace PizzaMvcWebApi.DTOs
 {
     public class PizzaDto
     {
         public int Id { get; set; }
-        public string Nome { get; set; }
-        public IList<IngredienteDto> Ingredientes { get; set; }
+        public string Name { get; set; }
+        public IList<IngredientDto> Ingredients { get; set; }
     }
 }

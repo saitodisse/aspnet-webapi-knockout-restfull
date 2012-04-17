@@ -4,7 +4,7 @@ using System.Web.Http;
 using AutoMapper;
 using PizzaModel.Entities;
 using PizzaModel.Services;
-using Pizzaria.DTOs;
+using PizzaMvcWebApi.DTOs;
 
 namespace Pizzaria
 {
@@ -23,7 +23,7 @@ namespace Pizzaria
         private static void CriarMapeamentosDto()
         {
             Mapper.CreateMap<Pizza, PizzaDto>();
-            Mapper.CreateMap<Ingredient, IngredienteDto>();
+            Mapper.CreateMap<Ingredient, IngredientDto>();
         }
 
 
@@ -51,13 +51,13 @@ namespace Pizzaria
         public string Post(PizzaDto pizzaDto)
         {
             var pizzaIncluir = new Pizza();
-            pizzaIncluir.Name = pizzaDto.Nome;
+            pizzaIncluir.Name = pizzaDto.Name;
             pizzaIncluir.Ingredients = new List<Ingredient>();
             _pizzaServico.Save(pizzaIncluir);
 
-            if (pizzaDto.Ingredientes != null)
+            if (pizzaDto.Ingredients != null)
             {
-                foreach (var ingredienteDto in pizzaDto.Ingredientes)
+                foreach (var ingredienteDto in pizzaDto.Ingredients)
                 {
                     var ingrediente = _ingredienteServico.GetById(ingredienteDto.Id);
                     pizzaIncluir.AddIngredient(ingrediente);
@@ -75,10 +75,10 @@ namespace Pizzaria
             // limpa seus filhos
             // e salva...
             var pizzaAlterar = _pizzaServico.GetById(id);
-            pizzaAlterar.Name = pizzaDto.Nome;
+            pizzaAlterar.Name = pizzaDto.Name;
 
             var ingredientesJaExistiam = pizzaAlterar.Ingredients;
-            var ingredienteChegando = pizzaDto.Ingredientes;
+            var ingredienteChegando = pizzaDto.Ingredients;
 
             AlterarListaManyToMany(ingredienteChegando, ingredientesJaExistiam);
 
@@ -87,7 +87,7 @@ namespace Pizzaria
             return "Pizza [" + pizzaAlterar.Id + "] salva com sucesso!";
         }
 
-        private void AlterarListaManyToMany(IList<IngredienteDto> ingredienteChegando, IList<Ingredient> ingredientesJaExistiam)
+        private void AlterarListaManyToMany(IList<IngredientDto> ingredienteChegando, IList<Ingredient> ingredientesJaExistiam)
         {
             if (ingredienteChegando != null)
             {

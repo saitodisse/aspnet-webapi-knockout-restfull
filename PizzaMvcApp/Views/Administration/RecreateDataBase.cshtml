@@ -2,33 +2,14 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Administration</h1>
-<h2>Re-create all database</h2>
-
-<style type="text/css">
-    body {
-        margin: 30px;
-        font-family: Arial;
-        font-size: 1.5em;
-    }
-    div {
-        margin: 20px;
-    }
-    input {
-        font-size: 0.9em;
-        width: 360px;
-    }
-    button {
-        font-size: 0.8em;
-    }
-</style>
-
-
-<form  method="post">
-    <div>
-        <label>Are you sure?</label>
-        <input id="txtPassword" name="txtPassword" />
-        <button type="submit">GO</button>
+    <div class="container">
+      <div class="hero-unit">
+          <h2>Are you sure?</h2>
+          <p>Do you realy want to recreate the database. This is a destructive action.</p>
+          <p>Type "I am sure" to continue.</p>
+          <form  method="post">
+          <input id="txtPassword" name="txtPassword" />
+          <input type="submit" value="continue"></input>
+          </form>
+      </div>
     </div>
-</form>

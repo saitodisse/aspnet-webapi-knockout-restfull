@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -43,7 +39,15 @@ namespace PizzaMvcApp
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
-            BundleTable.Bundles.RegisterTemplateBundles();
+            Bundle styles = new Bundle("~/Content/css", new CssMinify());
+            styles.AddDirectory("~/Content", "*min.css");
+            BundleTable.Bundles.Add(styles);
+
+            Bundle scripts = new Bundle("~/Scripts/js", new JsMinify());
+            scripts.AddDirectory("~/Scripts", "*min.js");
+            scripts.AddDirectory("~/Scripts", "knockout.js");
+            BundleTable.Bundles.Add(scripts);
+
         }
     }
 }

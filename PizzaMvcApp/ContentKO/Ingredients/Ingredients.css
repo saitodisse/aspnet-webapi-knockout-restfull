@@ -1,0 +1,133 @@
+﻿option, input{
+    font-family: Verdana;
+    font-size: 1.1em;
+}
+
+.bloco {
+    float: left;
+    width: 300px;
+}
+
+.subTitulo {
+    padding: 10px;
+    font-family: Arial;
+    font-size: 1.3em;
+}
+#divImagemAjax 
+{
+    position: absolute;
+    top: 20px;
+    left: 170px;
+}
+
+.divContent {
+    padding: 10px;
+    width: 250px;
+    float: left;
+    border: solid 2px;
+    border-color: #aaa;
+    background-color: #ddd;
+}
+
+#divDebug {
+    display: none;
+    background: #FFF;
+    color: #555;
+    font-family: Consolas;
+    font-size: 1.00em;
+    margin: 5px;
+    padding: 20px;
+    float: right;
+    position: absolute;
+    top: 20px;
+    left: 830px;
+}
+h3{
+    margin: 2px;
+    padding: 1px;
+    font-family: Consolas;
+    font-size: 1.30em;
+}
+.itemDebug
+{
+    border: solid 2px;
+    border-color: #888;
+    display: block;
+    width: 500px;
+    height: 500px;
+    overflow: auto
+}
+
+#divLog {
+    display: none;
+    background: #FFF;
+    color: #555;
+    font-family: Consolas;
+    font-size: 1.00em;
+    margin: 5px;
+    padding: 20px;
+    float: right;
+    position: absolute;
+    top: 600px;
+    left: 830px;
+}
+.itemLog
+{
+    border: solid 2px;
+    border-color: #888;
+    display: block;
+    width: 420px;
+    height: 300px;
+    overflow: auto
+}
+
+table {
+    padding: 7px;
+    margin: 7px;
+}
+
+table td,th {
+    padding: 8px;
+    text-align: left;
+    border: solid 2px;
+    border-color: #aaa;
+}
+
+table td 
+{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.linhaSelecionada {
+    background-color: #fff;
+}
+
+.campo {
+    color: #555;
+    font-size: 1.0em;
+    padding: 3px;
+    display: inline;
+}
+
+.dado {
+    color: #333;
+    font-weight: bold;
+    font-size: 0.90em;
+    padding: 3px;
+    display: inline;
+}
+
+.dado input{
+    width: 170px;
+}
+
+button {
+    color: #338;
+    font-weight: bold;
+    font-size: 0.90em;
+    padding: 5px;
+    margin: 5px;
+    display: inline;
+}
+

@@ -41,11 +41,17 @@ namespace PizzaMvcApp
 
             Bundle styles = new Bundle("~/Content/css", new CssMinify());
             styles.AddDirectory("~/Content", "*min.css");
+            styles.AddFile("~/Content/Site.css");
             BundleTable.Bundles.Add(styles);
 
             Bundle scripts = new Bundle("~/Scripts/js", new JsMinify());
             scripts.AddDirectory("~/Scripts", "*min.js");
-            scripts.AddDirectory("~/Scripts", "knockout.js");
+            scripts.AddFile("~/Scripts/knockout-restfull/dev-external-libs/underscore.js 1.3.3.js");
+            scripts.AddFile("~/Scripts/knockout-restfull/dev-external-libs/json2.js");
+            scripts.AddFile("~/Scripts/knockout.js");
+            scripts.AddFile("~/Scripts/knockout-restfull/src/ajaxRest.js");
+            scripts.AddFile("~/Scripts/knockout-restfull/src/repoJqueryAjax.js");
+            scripts.AddFile("~/Scripts/knockout-restfull/src/controllerKnockout.js");
             BundleTable.Bundles.Add(scripts);
 
         }

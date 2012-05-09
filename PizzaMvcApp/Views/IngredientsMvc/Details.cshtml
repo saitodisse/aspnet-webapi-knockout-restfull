@@ -1,23 +1,21 @@
 ﻿@model PizzaModel.Entities.Ingredient
-
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Details</h2>
-
-<fieldset>
-    <legend>Ingredient</legend>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Name)
+<h3>
+    Details</h3>
+<div class="row">
+    <div class="span2 well">
+        <label>
+            @Html.DisplayNameFor(model => model.Name)
+        </label>
+        <p>
+            @Html.DisplayFor(model => model.Name)
+        </p>
     </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Name)
-    </div>
-</fieldset>
+</div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

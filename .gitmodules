@@ -1,0 +1,3 @@
+[submodule "knockout-restfull"]
+	path = PizzaMvcApp/Scripts/knockout-restfull
+	url = git@github.com:saitodisse/knockout-restfull.git

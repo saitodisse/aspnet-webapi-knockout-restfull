@@ -8,10 +8,24 @@
 }
 #divDebug {
     display: none;
+    padding: 10px;
 }
 #divLog {
     display: none;
-    overflow: auto;
-    max-height: 390px;
     padding: 10px;
+}
+
+#divDebug pre, #divLog pre{
+    font-family: Consolas, "Courier New";
+    font-size: 0.9em;
+    background-color: #effefe;
+}
+
+#divDebug pre{
+    max-height: 595px;
+    overflow: auto;
+}
+#divLog pre{
+    max-height: 390px;
+    overflow: auto;
 }

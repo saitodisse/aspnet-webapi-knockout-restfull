@@ -12,64 +12,57 @@
     <div class="span4">
         <h3>
             Ingredients list</h3>
+
         <div id="divImagemAjax">
             <span data-bind="visible : ingredientVm.updating">updating</span>
         </div>
         <table class="table table-bordered table-selection">
             <thead>
-                <tr>
-                    <th>
-                        Id
-                    </th>
-                    <th>
-                        Name
-                    </th>
-                </tr>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Name
+                </th>
+            </tr>
             </thead>
             <tbody data-bind="foreach : ingredientVm.list">
-                <tr data-bind="css: {linhaSelecionada : Id === $root.ingredientVm.selected().Id }, click: $root.ingredientVm.select">
-                    <td data-bind="text:Id">
-                    </td>
-                    <td data-bind="text:Name">
-                    </td>
-                </tr>
+            <tr data-bind="css: {linhaSelecionada : Id === $root.ingredientVm.selected().Id }, click: $root.ingredientVm.select">
+                <td data-bind="text:Id">
+                </td>
+                <td data-bind="text:Name">
+                </td>
+            </tr>
             </tbody>
         </table>
-        <p><input type="button" class="btn btn-small" data-bind="click : ingredientVm.create"
-            value="New"></input></p>
-        
-        <p><input type="button" class="btn btn-small" data-bind="click : ingredientVm.exclude"
-            value="Delete"></input></p>
-        <p><input type="button" class="btn btn-small" data-bind="click : ingredientVm.save"
-            value="Save"></input></p>
-        <p><input type="button" class="btn btn-small" id="buttonShowDebugInfo" value="Show Debug Info"></input></p>
-    </div>
-    <div class="span4">
-        <h3>
-            Detail
-        </h3>
         <div class="well" data-bind="with : ingredientVm.selected">
             <div>
-                <label>
-                    Id
-                </label>
+                <p><i>selected:</i></p>
                 <p>
-                    <span data-bind="text : Id"></span>
-                </p>
-            </div>
-            <div>
-                <label>
-                    Name
-                </label>
-                <p>
-                    <input data-bind="value : Name" />
+                    <span data-bind="text : Id"></span> - <input data-bind="value : Name"/>
                 </p>
             </div>
         </div>
+    </div>
+    <div class="span4">
+        <h3>
+            Buttons
+        </h3>
+        <br>
+
+        <p><input type="button" class="btn btn-small" data-bind="click : ingredientVm.create" value="New"/></p>
+
+        <p><input type="button" class="btn btn-small" data-bind="click : ingredientVm.exclude" value="Delete"/></p>
+
+        <p><input type="button" class="btn btn-small" data-bind="click : ingredientVm.save" value="Save"/></p>
+
+        <p><input type="button" class="btn btn-small" id="buttonShowDebugInfo" value="Show Debug Info"/></p>
         <div>
             <div id="divLog">
                 <h4>
                     ajax log</h4>
+
                 <div>
                     <pre id="preLog"></pre>
                 </div>
@@ -80,6 +73,7 @@
         <div id="divDebug">
             <h4>
                 knockout $data</h4>
+
             <div>
                 <pre data-bind="text: JSON.stringify(ko.toJS($data), null, 2)" id="preDebug"></pre>
             </div>

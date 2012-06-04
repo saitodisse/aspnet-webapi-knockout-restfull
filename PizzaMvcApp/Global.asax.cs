@@ -39,20 +39,17 @@ namespace PizzaMvcApp
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
-            Bundle styles = new Bundle("~/Content/css", new CssMinify());
-            styles.AddDirectory("~/Content", "*min.css");
-            styles.AddFile("~/Content/Site.css");
-            BundleTable.Bundles.Add(styles);
+            Bundle cssBundle = new Bundle("~/Content/css", new CssMinify());
+            cssBundle.AddDirectory("~/Content", "*min.css");
+            cssBundle.AddFile("~/Content/Site.css");
+            BundleTable.Bundles.Add(cssBundle);
 
-            Bundle scripts = new Bundle("~/Scripts/js", new JsMinify());
-            scripts.AddDirectory("~/Scripts", "*min.js");
-            scripts.AddFile("~/Scripts/knockout-restfull/dev-external-libs/underscore.js 1.3.3.js");
-            scripts.AddFile("~/Scripts/knockout-restfull/dev-external-libs/json2.js");
-            scripts.AddFile("~/Scripts/knockout.js");
-            scripts.AddFile("~/Scripts/knockout-restfull/src/ajaxRest.js");
-            scripts.AddFile("~/Scripts/knockout-restfull/src/repoJqueryAjax.js");
-            scripts.AddFile("~/Scripts/knockout-restfull/src/controllerKnockout.js");
-            BundleTable.Bundles.Add(scripts);
+            Bundle javascriptBundle = new Bundle("~/Scripts/js", new NoTransform());//, new JsMinify());
+            //scripts.AddDirectory("~/Scripts", "*min.js");
+            javascriptBundle.AddFile("~/Scripts/underscore.js");
+            javascriptBundle.AddFile("~/Scripts/json2.js");
+            javascriptBundle.AddFile("~/Scripts/jquery-1.7.2.js");
+            BundleTable.Bundles.Add(javascriptBundle);
 
         }
     }

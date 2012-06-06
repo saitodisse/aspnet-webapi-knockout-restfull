@@ -23,36 +23,11 @@
 
 $(function () {
 
-    var self = {};
-
-
     //Models
     var Ingredient = Backbone.Model.extend({
         idAttribute: "Id",
-
-        /*
-        defaults: Default values used when a new instance of the model 
-        is created. This attribute is optional. However, it was 
-        required in this application for the ingredient-details template to 
-        render an ‘empty’ ingredient model object (which happens when adding 
-        a new ingredient).
-        */
-        defaults: {
-            "Id": null,
-            "Name": ""
-        }
-
-        /*
-        urlRoot: RESTful service endpoint to retrieve or persist Model 
-        data. Note that this attribute is only needed when 
-        retrieving/persisting Models that are not part of a Collection. 
-        If the Model is part of a Collection, the url attribute defined 
-        in the Collection is enough for Backbone.js to know how to 
-        retrieve, update, or delete data using your RESTful API.
-
-        //,urlRoot: "../../PizzaMvcWebApi/api/ingredient"
-
-        */
+        defaults: {"Id": null,"Name": ""},
+        urlRoot: "../../PizzaMvcWebApi/api/ingredient"
     });
 
     var IngredientCollection = Backbone.Collection.extend({
@@ -67,16 +42,9 @@ $(function () {
 
         initialize: function () {
             this.model.bind("reset", this.render, this);
-            /*
-            When a new ingredient is added, you want it to automatically appear 
-            in the list. To make that happen, you bind the View to the add 
-            event of the IngredientListView model (which is the collection of ingredients).
-            
-            When that event is fired, a new instance of IngredientListItemView is 
-            created and added to the list.
-            */
+            var self = this;
             this.model.bind("add", function (ingredient) {
-                $(this.el).append(new IngredientListItemView({ model: ingredient }).render().el);
+                $(self.el).append(new IngredientListItemView({ model: ingredient }).render().el);
             });
         },
 
@@ -95,21 +63,7 @@ $(function () {
         template: _.template($('#tpl-ingredient-list-item').html()),
 
         initialize: function () {
-            /*
-            When a ingredient is changed, you want the corresponding 
-            IngredientListItemView to re-render automatically to reflect the 
-            change. To make that happen, you bind the View to the change 
-            event of its model, and execute the render function when the 
-            event is fired.
-            */
             this.model.bind("change", this.render, this);
-
-            /*
-            Similarly, when a ingredient is deleted, you want the list item to be 
-            removed automatically. To make that happen, you bind the view 
-            to the destroy event of its model and execute our custom close 
-            function when the event is fired. 
-            */
             this.model.bind("destroy", this.close, this);
         },
 
@@ -119,56 +73,12 @@ $(function () {
         },
 
         close: function () {
-            /*
-            To avoid memory leaks and 
-            events firing multiple times, it is important to unbind the 
-            event listeners before removing the list item from the DOM.
-
-            Note that in either case we don’t have the overhead of 
-            re-rendering the entire list: we only re-render or remove the 
-            list item affected by the change.
-            */
             $(this.el).unbind();
             $(this.el).remove();
         }
     });
 
-    /*
-    In the spirit of encapsulation, the event handlers for the Save 
-    and Delete buttons are defined inside IngredientView, as opposed to 
-    defining them as free-hanging code blocks outside the “class” 
-    definitions. You use the Backbone.js Events syntax which uses 
-    jQuery delegate mechanism behind the scenes.
-
-    There are always different approaches to update the model based 
-    on user input in a form:
-
-    “Real time” approach: you use the change handler to update the 
-    model as changes are made in the form. This is in essence 
-    bi-directional data binding: the model and the UI controls are 
-    always in sync. Using this approach, you can then choose 
-    between sending changes to the server in real time (implicit save),
-    or wait until the user clicks a Save button (explicit save).
-    
-    The first option can be chatty and unpractical when 
-    there are cross-field validation rules. The second option may 
-    require you to undo model changes if the user navigates to 
-    another item without clicking Save.
-
-    “Delayed” approach: You wait until the user clicks Save to 
-    update the model based on the new values in UI controls, and 
-    then send the changes to the server.
-
-    This discussion is not specific to Backbone.js and is therefore 
-    beyond the scope of this post. For simplicity, I used the 
-    delayed approach here. However I still wired the change event, 
-    and use it to log changes to the console. I found this very 
-    useful when debugging the application, and particularly to make 
-    sure I had cleaned up my bindings (see close function): I you 
-    see the change event firing multiple times, you probably didn’t 
-    clean up as appropriate.
-    */
-    self.IngredientView = Backbone.View.extend({
+    var IngredientView = Backbone.View.extend({
         template: _.template($('#tpl-ingredient-details').html()),
 
         initialize: function () {
@@ -182,15 +92,13 @@ $(function () {
 
         events: {
             "change input": "change",
-            "click .save": "saveIngredient",
-            "click .delete": "deleteIngredient"
+            "click #save": "saveIngredient",
+            "click #delete": "deleteIngredient"
         },
 
         change: function (event) {
             var target = event.target;
-            console.log('changing ' + target.id
-                     + ' from: ' + target.defaultValue
-                     + ' to: ' + target.value);
+            console.log('changing ' + target.id + ' from: ' + target.defaultValue + ' to: ' + target.value);
             // You could change your model on the spot, like this:
             // var change = {};
             // change[target.name] = target.value;
@@ -201,8 +109,26 @@ $(function () {
             this.model.set({
                 Name: $('#Name').val()
             });
+
+            /*
+            The problem: Add a new Ingredient, and click Save. The id that 
+            has been assigned to the newly created wine appears in the form 
+            field. However the URL is still:
+            http://localhost/backbone-cellar/part2/ when it should really be: 
+            http://localhost/backbone-cellar/part2/#ingredients/[id].
+
+            You can easily fix that issue by using the router’s navigate 
+            function to change the URL. The second argument (false), 
+            indicates that we actually don’t want to “execute” that route: we 
+            just want to change the URL.
+            */
             if (this.model.isNew()) {
-                app.ingredientList.create(this.model);
+                var self = this;
+                app.ingredientList.create(this.model, {
+                    success: function () {
+                        app.navigate('ing/' + self.model.id, false);
+                    }
+                });
             } else {
                 this.model.save();
             }
@@ -233,7 +159,7 @@ $(function () {
     toolbar) that could be made of different components and that 
     encapsulates its own logic.
     */
-    self.HeaderView = Backbone.View.extend({
+    var HeaderView = Backbone.View.extend({
         template: _.template($('#tpl-header').html()),
 
         initialize: function () {
@@ -246,17 +172,11 @@ $(function () {
         },
 
         events: {
-            "click .new": "newIngredient"
+            "click #new": "newIngredient"
         },
 
         newIngredient: function (event) {
-            if (app.ingredientView) {
-                app.ingredientView.close();
-            }
-            app.ingredientView = new self.IngredientView({
-                model: new Ingredient()
-            });
-            $('#content').html(app.ingredientView.render().el);
+            app.navigate("ing/new", true);
             return false;
         }
     });
@@ -265,28 +185,52 @@ $(function () {
     var AppRouter = Backbone.Router.extend({
         routes: {
             "": "list",
-            ":Id": "ingredientDetails"
+            "ing/new": "newIngredient",
+            "ing/:id": "ingredientDetails"
         },
 
         initialize: function () {
-            $('#divHeader').html(new self.HeaderView().render().el);
+            $('#header').html(new HeaderView().render().el);
         },
 
         list: function () {
             this.ingredientList = new IngredientCollection();
-            this.ingredientListView = new IngredientListView({ model: this.ingredientList });
-            this.ingredientList.fetch();
-            $('#divIngredients').html(this.ingredientListView.render().el);
+            var self = this;
+            this.ingredientList.fetch({
+                success: function () {
+                    self.ingredientListView = new IngredientListView({ model: self.ingredientList });
+                    $('#sidebar').html(self.ingredientListView.render().el);
+                    if (self.requestedId) self.ingredientDetails(self.requestedId);
+                }
+            });
         },
 
+/*
+Another approach is to check if the collection exists in the 
+ingredientDetails function. If it does, we simply “get” the requested 
+item and render it as we did before. If it doesn’t, we store the 
+requested id in a variable, and then invoke the existing list() 
+function to populate the list. We then modify the list function: 
+When we get the list from the server (on success), we check if 
+there was a requested id. If there was, we invoke the wineDetails 
+function to render the corresponding item.
+*/
         ingredientDetails: function (id) {
-            //this.ingredient = this.ingredientList.where({ Id: parseInt(id) })[0];
-            this.ingredient = this.ingredientList.get(id);
-            if (app.ingredientView) {
-                app.ingredientView.close();
+            if (this.ingredientList) {
+                this.ingredient = this.ingredientList.get(id);
+                if (this.ingredientView) this.ingredientView.close();
+                this.ingredientView = new IngredientView({ model: this.ingredient });
+                $('#divDetails').html(this.ingredientView.render().el);
+            } else {
+                this.requestedId = id;
+                this.list();
             }
-            this.ingredientView = new self.IngredientView({ model: this.ingredient });
-            $('#divDetails').html(this.ingredientView.render().el);
+        },
+
+        newIngredient: function () {
+            if (app.ingredientView) app.ingredientView.close();
+            app.ingredientView = new IngredientView({ model: new Ingredient() });
+            $('#divDetails').html(app.ingredientView.render().el);
         }
     });
 

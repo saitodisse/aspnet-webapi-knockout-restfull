@@ -45,12 +45,15 @@ namespace PizzaMvcWebApi.Controllers
         }
 
         // POST /api/<controller>
-        public int Post(IngredientDto IngredientDto)
+        public IngredientDto Post(IngredientDto IngredientDto)
         {
             var IngredientIncluir = new Ingredient();
             IngredientIncluir.Name = IngredientDto.Name;
             _IngredientServico.Save(IngredientIncluir);
-            return IngredientIncluir.Id;
+
+            IngredientDto.Id = IngredientIncluir.Id;
+
+            return IngredientDto;
 
         }
 

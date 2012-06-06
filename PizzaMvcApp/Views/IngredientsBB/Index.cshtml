@@ -16,20 +16,20 @@
 <div id="content">
     <div class="row">
         <div class="span4">
-            <div id="divHeader">
+            <div id="header">
             </div>
             <script type="text/template" id="tpl-header">
                 <span class="title">Ingredients</span>
-	            <button class="new">New Ingredient</button>
+                <input type="button" class="btn btn-small" id="new" value="New Ingredient" />
             </script>
         </div>
     </div>
     <div class="row">
         <div class="span4">
-            <div id="divIngredients">
+            <div id="sidebar">
             </div>
             <script type="text/template" id="tpl-ingredient-list-item">
-	            <a href='#<%= Id %>'><%= Name %></a>
+	            <a href='#ing/<%= Id %>'><%= Name %></a>
             </script>
         </div>
         <div class="span4">
@@ -41,8 +41,8 @@
                     <input type="text" id="Id" name="Id" value="<%= Id %>" disabled />
                     <label>Name:</label>
                     <input type="text" id="Name" name="Name" value="<%= Name %>" required/>
-                    <button class="save">Save</button>
-                    <button class="delete">Delete</button>
+                    <input type="button" class="btn btn-small" id="save" value="Save" />
+                    <input type="button" class="btn btn-small" id="delete" value="Delete" />
                 </div>
             </script>
         </div>

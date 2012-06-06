@@ -204,7 +204,6 @@
     <Content Include="Scripts\knockback.min.js" />
     <Content Include="Scripts\knockout-restfull\dev-external-libs\json2.js" />
     <Content Include="Scripts\knockout-restfull\dev-external-libs\knockout.2.0.0.debug.js" />
-    <Content Include="Scripts\knockout-restfull\dev-external-libs\underscore.js" />
     <Content Include="Scripts\knockout-restfull\src\ajaxRest.js" />
     <Content Include="Scripts\knockout-restfull\src\controllerKnockout.js" />
     <Content Include="Scripts\knockout-restfull\src\repoJqueryAjax.js" />

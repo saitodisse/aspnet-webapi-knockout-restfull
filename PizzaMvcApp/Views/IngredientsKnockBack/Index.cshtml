@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section css{
+    <link href="@Url.Content("~/ContentKO/Ingredients/Ingredients.css")" rel="stylesheet" type="text/css" />
+}
+@section js{
+    <script src="@Url.Content("~/Scripts/knockout.dev.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/Scripts/backbone.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/Scripts/knockback.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/ContentKnockBack/Ingredients/Ingredients.js")" type="text/javascript"> </script>
+}
+<div class="span4">
+    <h4>
+        Live Result</h4>
+    <div class="demos_result_box">
+        <div id="kbvm_bb_collection">
+            <p>
+                <span>First Person: </span>
+                <input data-bind="value: name">
+            </p>
+            <p>
+                <span>Second Person: </span>
+                <input data-bind="value: friends()[0].name">
+            </p>
+            <p>
+                <span>Third Person: </span>
+                <input data-bind="value: friends()[1].name">
+            </p>
+            <p>
+                <span>Person: </span><span data-bind="text: name">Bob</span>
+            </p>
+            <p>
+                <span>Has these friends: </span>
+            </p>
+            <ul data-bind="foreach: friends">
+                <li data-bind="text: name">Fred</li>
+                <li data-bind="text: name">John</li>
+            </ul>
+            <p>
+            </p>
+        </div>
+        <script type="application/javascript" src="tutorials/kb_view_model/kbvm_bb_collection_view_model_bindings.js"></script>
+    </div>
+</div>

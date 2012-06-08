@@ -6,33 +6,48 @@
     <link href="@Url.Content("~/ContentBB/Ingredients/Ingredients.css")" rel="stylesheet" type="text/css" />
 }
 @section js{
-    <script src="@Url.Content("~/Scripts/backbone.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/backbone.js")" type="text/javascript"> </script>
     @* 
         <script src="@Url.Content("~/Scripts/knockout.dev.js")" type="text/javascript"> </script>
         <script src="@Url.Content("~/Scripts/knockback.js")" type="text/javascript"></script>
     *@
     <script src="@Url.Content("~/ContentBB/Ingredients/Ingredients.js")" type="text/javascript"> </script>
 }
-<div id="content">
-    <div class="row">
-        <div class="span4">
-            <div id="header">
-            </div>
-            <script type="text/template" id="tpl-header">
-                <span class="title">Ingredients</span>
-                <input type="button" class="btn btn-small" id="new" value="New Ingredient" />
-            </script>
-        </div>
+<div class="row">
+    <div class="span4">
+        <h3>Ingredients list</h3>
+        <br/>
+        <table id="tableIngredients" class="table table-bordered table-selection">
+            <thead>
+                <tr>
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                </tr>
+            </thead>
+        </table>
+        <script type="text/template" id="tpl-ingredient-list-item">
+            <td>
+                <%= Id %>
+            </td>
+            <td>
+                <%= Name %>
+            </td>
+        </script>
     </div>
     <div class="row">
         <div class="span4">
-            <div id="sidebar">
+            <h3>Details</h3>
+            <br/>
+            <div id="header">
             </div>
-            <script type="text/template" id="tpl-ingredient-list-item">
-	            <a href='#ing/<%= Id %>'><%= Name %></a>
+            <br/>
+            <script type="text/template" id="tpl-header">
+                <input type="button" class="btn btn-small" id="new" value="New Ingredient" />
             </script>
-        </div>
-        <div class="span4">
             <div id="divDetails">
             </div>
             <script type="text/template" id="tpl-ingredient-details">

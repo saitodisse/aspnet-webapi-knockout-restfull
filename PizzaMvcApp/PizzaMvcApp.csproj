@@ -144,7 +144,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ContentKnockBack\Ingredients\model\models.js" />
     <Content Include="ContentKO\Ingredients\Ingredients.css" />
     <Content Include="ContentKO\Ingredients\Ingredients.js" />
     <Content Include="Content\bootstrap-responsive.css" />

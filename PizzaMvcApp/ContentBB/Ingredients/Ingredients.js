@@ -20,7 +20,7 @@ $(function () {
     //Models
     var Ingredient = Backbone.Model.extend({
         idAttribute: "Id",
-        defaults: {"Id": null,"Name": ""},
+        defaults: { "Id": null, "Name": "" },
         urlRoot: "../../PizzaMvcWebApi/api/ingredient"
     });
 
@@ -32,24 +32,20 @@ $(function () {
 
     // Views
     var IngredientListView = Backbone.View.extend({
-        tagName: 'ul',
+        tagName: 'tbody',
 
         initialize: function () {
             this.model.bind("reset", this.render, this);
             var self = this;
             this.model.bind("add", function (ingredient) {
-                
-                var ingredientListItemView = new IngredientListItemView({
-                    model: ingredient
-                });
-                
+                var ingredientListItemView = new IngredientListItemView({ model: ingredient });
                 var ingEle = ingredientListItemView.render().el;
-                
                 $(self.el).append(ingEle);
             });
         },
 
         render: function (eventName) {
+            $(this.el).html('');
             _.each(this.model.models, function (ingredient) {
                 var ingrListView = new IngredientListItemView({ model: ingredient });
                 $(this.el).append(ingrListView.render().el);
@@ -59,7 +55,7 @@ $(function () {
     });
 
     var IngredientListItemView = Backbone.View.extend({
-        tagName: "li",
+        tagName: "tr",
 
         template: _.template($('#tpl-ingredient-list-item').html()),
 
@@ -71,6 +67,15 @@ $(function () {
         render: function (eventName) {
             $(this.el).html(this.template(this.model.toJSON()));
             return this;
+        },
+
+        events: {
+            "click td": "goToDetail"
+        },
+
+        goToDetail: function () {
+            var id = this.model.get("Id");
+            window.location = "#ing/" + id;
         },
 
         close: function () {
@@ -100,10 +105,6 @@ $(function () {
         change: function (event) {
             var target = event.target;
             console.log('changing ' + target.id + ' from: ' + target.defaultValue + ' to: ' + target.value);
-            // You could change your model on the spot, like this:
-            // var change = {};
-            // change[target.name] = target.value;
-            // this.model.set(change);
         },
 
         saveIngredient: function () {
@@ -111,18 +112,6 @@ $(function () {
                 Name: $('#Name').val()
             });
 
-            /*
-            The problem: Add a new Ingredient, and click Save. The id that 
-            has been assigned to the newly created wine appears in the form 
-            field. However the URL is still:
-            http://localhost/backbone-cellar/part2/ when it should really be: 
-            http://localhost/backbone-cellar/part2/#ingredients/[id].
-
-            You can easily fix that issue by using the router’s navigate 
-            function to change the URL. The second argument (false), 
-            indicates that we actually don’t want to “execute” that route: we 
-            just want to change the URL.
-            */
             if (this.model.isNew()) {
                 var self = this;
                 app.ingredientList.create(this.model, {
@@ -140,7 +129,7 @@ $(function () {
             this.model.destroy({
                 success: function () {
                     //alert('Ingredient deleted successfully');
-                    window.history.back();
+                    window.history.back(); //fixme: porra, que merda é essa?
                 }
             });
             return false;
@@ -152,14 +141,6 @@ $(function () {
         }
     });
 
-    /*
-    Backbone.js Views are typically used to render domain models 
-    (as done in IngredientListView, IngredientListItemView, and Ingredient View). But 
-    they can also be used to create composite UI components. For 
-    example, in this application, we define a Header View (a 
-    toolbar) that could be made of different components and that 
-    encapsulates its own logic.
-    */
     var HeaderView = Backbone.View.extend({
         template: _.template($('#tpl-header').html()),
 
@@ -200,28 +181,45 @@ $(function () {
             this.ingredientList.fetch({
                 success: function () {
                     self.ingredientListView = new IngredientListView({ model: self.ingredientList });
-                    $('#sidebar').html(self.ingredientListView.render().el);
-                    if (self.requestedId) self.ingredientDetails(self.requestedId);
+                    
+                    // limpa a lista
+                    $('#tableIngredients tbody').remove();
+                    
+                    // limpa o detalhe
+                    $('#divDetails').html("");
+                    
+                    // "appenda" a nova lista
+                    $('#tableIngredients').append(self.ingredientListView.render().el);
+                    if (self.requestedId) {
+                        self.ingredientDetails(self.requestedId);  
+                    }
                 }
             });
         },
 
-/*
-Another approach is to check if the collection exists in the 
-ingredientDetails function. If it does, we simply “get” the requested 
-item and render it as we did before. If it doesn’t, we store the 
-requested id in a variable, and then invoke the existing list() 
-function to populate the list. We then modify the list function: 
-When we get the list from the server (on success), we check if 
-there was a requested id. If there was, we invoke the wineDetails 
-function to render the corresponding item.
-*/
         ingredientDetails: function (id) {
             if (this.ingredientList) {
                 this.ingredient = this.ingredientList.get(id);
-                if (this.ingredientView) this.ingredientView.close();
+
+                // limpa o detalhe anterior
+                if (this.ingredientView) {
+                    this.ingredientView.close();
+                }
                 this.ingredientView = new IngredientView({ model: this.ingredient });
                 $('#divDetails').html(this.ingredientView.render().el);
+
+                // seleciona coluna com mesmo id
+                var td = _.find($("#tableIngredients td:first-child"),
+                    function (jqueryItem) {
+                        return parseInt($(jqueryItem).text()) === this.ingredient.attributes.Id
+                    }, this)
+
+                // tira o .linhaSelecionada de todos os TDs
+                $("#tableIngredients td").removeClass("linhaSelecionada");
+
+                // acrescenta o .linhaSelecionada na coluna e no seu next
+                $(td).addClass("linhaSelecionada").next().addClass("linhaSelecionada");
+
             } else {
                 this.requestedId = id;
                 this.list();

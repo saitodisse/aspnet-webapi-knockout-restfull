@@ -8,17 +8,11 @@
 ::::::::::::::::::::::::::::::::
 
 >> http://coenraets.org/blog/2011/12/backbone-js-ingredient-cellar-tutorial-part-1-getting-started/
-
 >> http://coenraets.org/blog/2011/12/backbone-js-wine-cellar-tutorial-part-2-crud/
-
 >> http://coenraets.org/blog/2011/12/backbone-js-wine-cellar-tutorial-part-3-deep-linking-and-application-states/
-
 >> http://coenraets.org/blog/2012/05/single-page-crud-application-with-backbone-js-and-twitter-bootstrap/
 
 ----------------------------------------------------------------------------------------------------------- */
-
-
-
 
 
 $(function () {
@@ -44,7 +38,14 @@ $(function () {
             this.model.bind("reset", this.render, this);
             var self = this;
             this.model.bind("add", function (ingredient) {
-                $(self.el).append(new IngredientListItemView({ model: ingredient }).render().el);
+                
+                var ingredientListItemView = new IngredientListItemView({
+                    model: ingredient
+                });
+                
+                var ingEle = ingredientListItemView.render().el;
+                
+                $(self.el).append(ingEle);
             });
         },
 

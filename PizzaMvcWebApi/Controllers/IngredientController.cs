@@ -58,12 +58,12 @@ namespace PizzaMvcWebApi.Controllers
         }
 
         // PUT /api/<controller>/5
-        public string Put(int id, IngredientDto IngredientDto)
+        public IngredientDto Put(int id, IngredientDto IngredientDto)
         {
             var IngredientAlterar = _IngredientServico.GetById(id);
             IngredientAlterar.Name = IngredientDto.Name;
             _IngredientServico.Save(IngredientAlterar);
-            return "Ingredient [" + IngredientAlterar.Id + "] alterado com sucesso!";
+            return IngredientDto;
         }
 
         // DELETE /api/<controller>/5
